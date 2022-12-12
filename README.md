@@ -91,12 +91,14 @@ the endpoint using the [`for await...of` statement](https://developer.mozilla.or
 ```js
 const meetingId = 12345;
 // Use `client` instance from initialization above.
-for await (const participant of client.dashboards
-  .listMeetingParticipants(meetingId, {
+for await (const participant of client.dashboards.listMeetingParticipants(
+  meetingId,
+  {
     params: {
       type: "past",
     },
-  })) {
+  }
+)) {
   // Note that this is an individual item in the list/collection response.
   console.log(participant);
 }
@@ -112,7 +114,9 @@ for await (const page of client.dashboards
     params: {
       type: "past",
     },
-  }).pages()) { // <-- Note the `.pages` call here.
+  })
+  .pages()) {
+  // <-- Note the `.pages` call here.
   // Note that this is a page of items.
   console.log(page.data.participants);
 }

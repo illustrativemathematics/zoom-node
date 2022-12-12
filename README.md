@@ -18,7 +18,7 @@ REST API. More details can be found [there](https://marketplace.zoom.us/docs/api
 Initialize client:
 
 ```js
-import Zoom from "zoom-node";
+import Zoom from "@illustrative-mathematics/zoom-node";
 
 // Provide your unique values here.
 const client = new Zoom({

@@ -1,5 +1,5 @@
 {
-  "name": "zoom-node",
+  "name": "@illustrative-mathematics/zoom-node",
   "version": "0.1.0",
   "description": "",
   "main": "zoom.js",

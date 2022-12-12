@@ -1,0 +1,12 @@
+{
+  "name": "zoom-node",
+  "version": "0.1.0",
+  "description": "",
+  "main": "zoom.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Illustrative Mathematics",
+  "license": "ISC"
+}

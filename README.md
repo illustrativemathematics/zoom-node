@@ -86,7 +86,7 @@ console.log(nextPage.data.participants);
 ```
 
 List/collection items can also be paginated without manually refetching
-the endpoint using the `for await...of` statement:
+the endpoint using the [`for await...of` statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of):
 
 ```js
 const meetingId = 12345;

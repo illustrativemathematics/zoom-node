@@ -1,14 +1,19 @@
 {
   "name": "@illustrative-mathematics/zoom-node",
-  "version": "0.1.0",
-  "description": "",
+  "type": "module",
+  "version": "0.2.0",
+  "description": "Node.js client library for the Zoom API",
   "main": "zoom.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
-  "keywords": [],
+  "keywords": [
+    "zoom",
+    "api",
+    "client"
+  ],
   "author": "Illustrative Mathematics",
   "license": "ISC",
   "devDependencies": {

@@ -13,6 +13,41 @@ production with Node.js version 16.15.1.
 This library is based on the [Zoom Meeting API 2.0.0](https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#overview)
 REST API. More details can be found [there](https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#overview).
 
+## Installation
+
+Install via npm:
+
+```shell
+npm install @illustrative-mathematics/zoom-node
+```
+
+### Requirements
+
+This library uses [ES6 modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
+and has only been tested with Node.js version 16.15.1. Be sure to set the
+`type` property in `package.json` to `"module"` to use this module:
+
+```json
+{
+  "name": "my-zoom-test",
+
+  "type": "module",
+
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@illustrative-mathematics/zoom-node": "0.2.0"
+  }
+}
+```
+
 ## Usage
 
 Initialize client:

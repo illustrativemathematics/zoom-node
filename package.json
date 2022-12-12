@@ -8,5 +8,8 @@
   },
   "keywords": [],
   "author": "Illustrative Mathematics",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.2.1"
+  }
 }

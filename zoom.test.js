@@ -162,3 +162,18 @@ test("client paginates with `for await...of` statement", async () => {
 
   expect(emails).toEqual(["jane.smith@example.org", "john.smith@example.org"]);
 });
+
+test("client paginates pages with `for await...of` statement", async () => {
+  let emails = [];
+  for await (const page of client.groups
+    .listGroupMembers("abc", {
+      params: {
+        page_size: 1, // Mock responses only contain one member.
+      },
+    })
+    .pages()) {
+    emails = emails.concat(page.data.members.map((member) => member.email));
+  }
+
+  expect(emails).toEqual(["jane.smith@example.org", "john.smith@example.org"]);
+});

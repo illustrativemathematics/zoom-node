@@ -264,7 +264,7 @@ export default class Zoom {
             return page;
           }
 
-          page = await this._nextPage(page);
+          page = await firstPage._nextPage(page);
           return page;
         };
       })(),

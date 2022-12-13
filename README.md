@@ -27,25 +27,13 @@ This library uses [ES6 modules](https://developer.mozilla.org/en-US/docs/Web/Jav
 and has only been tested with Node.js version 16.15.1. Be sure to set the
 `type` property in `package.json` to `"module"` to use this module:
 
-```json
-{
-  "name": "my-zoom-test",
-
-  "type": "module",
-
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@illustrative-mathematics/zoom-node": "0.2.0"
-  }
-}
+```diff
+ {
+   "name": "my-zoom-app",
++  "type": "module",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
 ```
 
 ## Usage

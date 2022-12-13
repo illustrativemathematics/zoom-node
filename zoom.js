@@ -193,9 +193,7 @@ export default class Zoom {
   // its context, even if the method is passed as an argument. E.g., see
   // `groupMembers` above.
   withTokenRefreshAttempt = (conf) => {
-    try {
-      return this.api.request(conf);
-    } catch (err) {
+    return this.api.request(conf).catch((err) => {
       if (err.response.status === 401) {
         // Try once to reset token function so that a fresh request will
         // be made (and cached) for a new access token.
@@ -206,8 +204,8 @@ export default class Zoom {
         return this.api.request(conf);
       }
 
-      throw err;
-    }
+      return err;
+    });
   };
 
   withPagination(reqFunc, conf, itemsName, tokenName = "next_page_token") {

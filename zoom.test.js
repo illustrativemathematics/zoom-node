@@ -125,7 +125,7 @@ test("client throws for other error statuses", async () => {
   await expect(client.groups.listGroups()).rejects.toThrow();
 });
 
-test("client can manually paginate", async () => {
+test("client paginates manually", async () => {
   let emails = [];
   for (let i = 0, resp = null; i < 3; i++) {
     // Use the previous response value, if available, to page.
@@ -150,7 +150,7 @@ test("client can manually paginate", async () => {
   ]);
 });
 
-test("client can be paginated with for await...of statement", async () => {
+test("client paginates with `for await...of` statement", async () => {
   let emails = [];
   for await (const member of client.groups.listGroupMembers("abc", {
     params: {

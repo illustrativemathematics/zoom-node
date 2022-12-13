@@ -43,6 +43,12 @@ test("client auth before request", async () => {
   expect(spy).toHaveBeenCalled();
 });
 
+test("client response contains data", async () => {
+  const resp = await client.groups.listGroups();
+
+  expect(resp.data.total_records).toBe(2);
+});
+
 test("client auth once for authorized", async () => {
   const spy = jest.spyOn(client.auth, "request");
   // List groups twice.

@@ -150,20 +150,18 @@ There is also a `nextPage` helper:
 ```js
 const meetingId = 12345;
 // Use `client` instance from initialization above.
-const response = await client.dashboards.listMeetingParticipants(meetingId, {
+const pager = client.dashboards.listMeetingParticipants(meetingId, {
   params: {
     type: "past",
   },
 });
-console.log(response.data.participants);
-
 while (true) {
-  const nextPage = await response.nextPage();
-  if (!nextPage) {
+  const page = await pager.nextPage();
+  if (!page) {
     break;
   }
 
-  console.log(nextPage.data.participants);
+  console.log(page.data.participants);
 }
 ```
 

@@ -177,3 +177,22 @@ test("client paginates pages with `for await...of` statement", async () => {
 
   expect(emails).toEqual(["jane.smith@example.org", "john.smith@example.org"]);
 });
+
+test("client paginates with `nextPage` helper", async () => {
+  let emails = [];
+  const pager = client.groups.listGroupMembers("abc", {
+    params: {
+      page_size: 1, // Mock responses only contain one member.
+    },
+  });
+  while (true) {
+    const page = await pager.nextPage();
+    if (!page) {
+      break;
+    }
+
+    emails = emails.concat(page.data.members.map((member) => member.email));
+  }
+
+  expect(emails).toEqual(["jane.smith@example.org", "john.smith@example.org"]);
+});

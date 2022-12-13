@@ -204,7 +204,7 @@ export default class Zoom {
         return this.api.request(conf);
       }
 
-      return err;
+      throw err;
     });
   };
 

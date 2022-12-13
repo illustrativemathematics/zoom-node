@@ -178,3 +178,7 @@ while (true) {
   console.log(nextPage.data.participants);
 }
 ```
+
+## License
+
+See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).

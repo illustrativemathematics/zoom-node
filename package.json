@@ -2,7 +2,7 @@
   "name": "@illustrative-mathematics/zoom-node",
   "type": "module",
   "homepage": "https://github.com/illustrativemathematics/zoom-node",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "Node.js client library for the Zoom API",
   "main": "zoom.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "client"
   ],
   "author": "Illustrative Mathematics",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "eslint": "8.29.0",
     "prettier": "2.8.1"

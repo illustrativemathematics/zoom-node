@@ -140,3 +140,16 @@ test("client can manually paginate", async () => {
     );
   }
 });
+
+test("client can be paginated with for await...of statement", async () => {
+  let emails = [];
+  for await (const member of client.groups.listGroupMembers("abc", {
+    params: {
+      page_size: 1, // Mock responses only contain one member.
+    },
+  })) {
+    emails.push(member.email);
+  }
+
+  expect(emails).toEqual(["jane.smith@example.org", "john.smith@example.org"]);
+});

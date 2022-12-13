@@ -30,6 +30,42 @@ const server = setupServer(
         total_records: 2,
       })
     );
+  }),
+  rest.get("https://api.zoom.us/v2/groups/abc/members", (req, res, ctx) => {
+    const nextPageToken = req.url.searchParams.get("next_page_token");
+    const data = !nextPageToken
+      ? {
+          page_count: 2,
+          page_number: 1,
+          next_page_token: "ghi",
+          page_size: 1,
+          total_records: 2,
+          members: [
+            {
+              email: "jane.smith@example.org",
+              first_name: "Jane",
+              id: "jkl",
+              last_name: "Smith",
+              type: 1,
+            },
+          ],
+        }
+      : {
+          next_page_token: "",
+          page_size: 1,
+          total_records: 2,
+          members: [
+            {
+              email: "john.smith@example.org",
+              first_name: "John",
+              id: "mno",
+              last_name: "Smith",
+              type: 1,
+            },
+          ],
+        };
+
+    return res(ctx.json(data));
   })
 );
 beforeAll(() => server.listen());
@@ -87,4 +123,20 @@ test("client throws for other error statuses", async () => {
   );
 
   await expect(client.groups.listGroups()).rejects.toThrow();
+});
+
+test("client can manually paginate", async () => {
+  for (let i = 0, resp = null; i < 3; i++) {
+    const pager = resp ? { next_page_token: resp.data.next_page_token } : {};
+    resp = await client.groups.listGroupMembers("abc", {
+      params: {
+        page_size: 1, // Mock responses only contain one member.
+        ...pager,
+      },
+    });
+
+    expect(resp.data.members[0].email).toBe(
+      i % 2 === 0 ? "jane.smith@example.org" : "john.smith@example.org"
+    );
+  }
 });

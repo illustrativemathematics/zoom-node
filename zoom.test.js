@@ -126,7 +126,9 @@ test("client throws for other error statuses", async () => {
 });
 
 test("client can manually paginate", async () => {
+  let emails = [];
   for (let i = 0, resp = null; i < 3; i++) {
+    // Use the previous response value, if available, to page.
     const pager = resp ? { next_page_token: resp.data.next_page_token } : {};
     resp = await client.groups.listGroupMembers("abc", {
       params: {
@@ -135,10 +137,17 @@ test("client can manually paginate", async () => {
       },
     });
 
-    expect(resp.data.members[0].email).toBe(
-      i % 2 === 0 ? "jane.smith@example.org" : "john.smith@example.org"
-    );
+    emails.push(resp.data.members[0].email);
   }
+
+  // The Zoom API responds with the first page if `next_page_token` is not
+  // set or an empty string. The `next_page_token` is an empty string for
+  // the last page.
+  expect(emails).toEqual([
+    "jane.smith@example.org",
+    "john.smith@example.org",
+    "jane.smith@example.org",
+  ]);
 });
 
 test("client can be paginated with for await...of statement", async () => {

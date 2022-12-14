@@ -10,6 +10,9 @@
 <dt><a href="#Meetings">Meetings</a></dt>
 <dd><p>Zoom Meetings API.</p>
 </dd>
+<dt><a href="#Reports">Reports</a></dt>
+<dd><p>Zoom Reports API.</p>
+</dd>
 <dt><a href="#Zoom">Zoom</a></dt>
 <dd><p>Zoom API client.</p>
 </dd>
@@ -215,6 +218,45 @@ Retrieve information on participants from a past meeting.
 | [params.page_size] | <code>number</code> | 
 | [params.next_page_token] | <code>string</code> | 
 
+<a name="Reports"></a>
+
+## Reports
+Zoom Reports API.
+
+**Kind**: global class  
+**See**: https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#tag/Reports  
+
+* [Reports](#Reports)
+    * [new Reports(client)](#new_Reports_new)
+    * [.getMeetingParticipantReports(meetingId, [params])](#Reports+getMeetingParticipantReports) ⇒ <code>Promise</code>
+
+<a name="new_Reports_new"></a>
+
+### new Reports(client)
+Make Reports instance.
+
+
+| Param | Type |
+| --- | --- |
+| client | [<code>Zoom</code>](#Zoom) | 
+
+<a name="Reports+getMeetingParticipantReports"></a>
+
+### reports.getMeetingParticipantReports(meetingId, [params]) ⇒ <code>Promise</code>
+Return a report of a past meeting with two or more participants,
+including the host.
+
+**Kind**: instance method of [<code>Reports</code>](#Reports)  
+**See**: https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/reportMeetingParticipants  
+
+| Param | Type |
+| --- | --- |
+| meetingId | <code>string</code> | 
+| [params] | <code>Object</code> | 
+| [params.page_size] | <code>number</code> | 
+| [params.next_page_token] | <code>string</code> | 
+| [params.include_fields] | <code>&quot;registrant\_id&quot;</code> | 
+
 <a name="Zoom"></a>
 
 ## Zoom
@@ -227,6 +269,7 @@ Zoom API client.
     * [.dashboards](#Zoom+dashboards) : [<code>Dashboards</code>](#Dashboards)
     * [.groups](#Zoom+groups) : [<code>Groups</code>](#Groups)
     * [.meetings](#Zoom+meetings) : [<code>Meetings</code>](#Meetings)
+    * [.reports](#Zoom+reports) : [<code>Reports</code>](#Reports)
 
 <a name="new_Zoom_new"></a>
 
@@ -260,5 +303,11 @@ Groups API.
 
 ### zoom.meetings : [<code>Meetings</code>](#Meetings)
 Meetings API.
+
+**Kind**: instance property of [<code>Zoom</code>](#Zoom)  
+<a name="Zoom+reports"></a>
+
+### zoom.reports : [<code>Reports</code>](#Reports)
+Reports API.
 
 **Kind**: instance property of [<code>Zoom</code>](#Zoom)  

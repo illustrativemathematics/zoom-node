@@ -240,11 +240,35 @@ class Meetings {
   }
 }
 
+/**
+ * Zoom Reports API.
+ *
+ * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#tag/Reports
+ */
 class Reports {
+  /**
+   * Make Reports instance.
+   *
+   * @param {Zoom} client
+   */
   constructor(client) {
     this.client = client;
   }
 
+  /**
+   * Return a report of a past meeting with two or more participants,
+   * including the host.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/reportMeetingParticipants
+   *
+   * @param {string} meetingId
+   * @param {Object} [params]
+   * @param {number} [params.page_size]
+   * @param {string} [params.next_page_token]
+   * @param {"registrant_id"} [params.include_fields]
+   *
+   * @returns {Promise}
+   */
   getMeetingParticipantReports(meetingId, { params = {} } = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
@@ -329,6 +353,11 @@ class Zoom {
      * @type {Meetings}
      */
     this.meetings = new Meetings(this);
+    /**
+     * Reports API.
+     *
+     * @type {Reports}
+     */
     this.reports = new Reports(this);
   }
 

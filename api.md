@@ -1,3 +1,14 @@
+## Classes
+
+<dl>
+<dt><a href="#Dashboards">Dashboards</a></dt>
+<dd><p>Zoom Dashboards API.</p>
+</dd>
+<dt><a href="#Zoom">Zoom</a></dt>
+<dd><p>Zoom API client.</p>
+</dd>
+</dl>
+
 <a name="Dashboards"></a>
 
 ## Dashboards
@@ -20,7 +31,7 @@ Make Dashboards instance.
 
 | Param | Type |
 | --- | --- |
-| client | <code>Zoom</code> | 
+| client | [<code>Zoom</code>](#Zoom) | 
 
 <a name="Dashboards+listMeetings"></a>
 
@@ -73,3 +84,36 @@ Get details on live or past meetings.
 | [params] | <code>Object</code> | 
 | [params.type] | <code>&quot;past&quot;</code> \| <code>&quot;pastOne&quot;</code> \| <code>&quot;live&quot;</code> | 
 
+<a name="Zoom"></a>
+
+## Zoom
+Zoom API client.
+
+**Kind**: global class  
+
+* [Zoom](#Zoom)
+    * [new Zoom(params)](#new_Zoom_new)
+    * [.dashboards](#Zoom+dashboards) : [<code>Dashboards</code>](#Dashboards)
+
+<a name="new_Zoom_new"></a>
+
+### new Zoom(params)
+Make new client. This is the main entry point of the package.
+
+
+| Param | Type |
+| --- | --- |
+| params | <code>Object</code> | 
+| params.accountId | <code>string</code> | 
+| params.clientId | <code>string</code> | 
+| params.clientSecret | <code>string</code> | 
+| [params.baseURL] | <code>string</code> | 
+| [params.baseAuthURL] | <code>string</code> | 
+| [params.timeout] | <code>number</code> | 
+
+<a name="Zoom+dashboards"></a>
+
+### zoom.dashboards : [<code>Dashboards</code>](#Dashboards)
+Dashboards API.
+
+**Kind**: instance property of [<code>Zoom</code>](#Zoom)  

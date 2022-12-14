@@ -179,7 +179,21 @@ class Reports {
   }
 }
 
-export default class Zoom {
+/**
+ * Zoom API client.
+ */
+class Zoom {
+  /**
+   * Make new client. This is the main entry point of the package.
+   *
+   * @param {Object} params
+   * @param {string} params.accountId
+   * @param {string} params.clientId
+   * @param {string} params.clientSecret
+   * @param {string} [params.baseURL]
+   * @param {string} [params.baseAuthURL]
+   * @param {number} [params.timeout]
+   */
   constructor({
     accountId,
     clientId,
@@ -218,7 +232,11 @@ export default class Zoom {
       return conf;
     });
 
-    // Set up resources.
+    /**
+     * Dashboards API.
+     *
+     * @type {Dashboards}
+     */
     this.dashboards = new Dashboards(this);
     this.groups = new Groups(this);
     this.meetings = new Meetings(this);
@@ -337,3 +355,5 @@ export default class Zoom {
     });
   }
 }
+
+export default Zoom;

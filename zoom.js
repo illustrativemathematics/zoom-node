@@ -155,11 +155,34 @@ class Groups {
   }
 }
 
+/**
+ * Zoom Meetings API.
+ *
+ * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#tag/Meetings
+ */
 class Meetings {
+  /**
+   * Make Meetings instance.
+   *
+   * @param {Zoom} client
+   */
   constructor(client) {
     this.client = client;
   }
 
+  /**
+   * List a user's (meeting host) scheduled meetings.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetings
+   *
+   * @param {number|string|"me"} userId
+   * @param {Object} [params]
+   * @param {"scheduled"|"live"|"upcoming"|"upcoming_meetings"|"previous_meetings"} [params.type]
+   * @param {number} [params.page_size]
+   * @param {string} [params.next_page_token]
+   *
+   * @returns {Promise}
+   */
   listMeetings(userId, { params = {} } = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
@@ -172,6 +195,18 @@ class Meetings {
     );
   }
 
+  /**
+   * Retrieve the details of a meeting.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meeting
+   *
+   * @param {number} meetingId
+   * @param {Object} [params]
+   * @param {string} [params.occurrence_id]
+   * @param {boolean} [params.show_previous_occurrences]
+   *
+   * @returns {Promise}
+   */
   getAMeeting(meetingId, { params = {} } = {}) {
     return this.client.withTokenRefreshAttempt({
       method: "GET",
@@ -180,6 +215,18 @@ class Meetings {
     });
   }
 
+  /**
+   * Retrieve information on participants from a past meeting.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/pastMeetingParticipants
+   *
+   * @param {string} meetingId
+   * @param {Object} [params]
+   * @param {number} [params.page_size]
+   * @param {string} [params.next_page_token]
+   *
+   * @returns {Promise}
+   */
   getPastMeetingParticipants(meetingId, { params = {} } = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
@@ -276,6 +323,11 @@ class Zoom {
      * @type {Groups}
      */
     this.groups = new Groups(this);
+    /**
+     * Meetings API.
+     *
+     * @type {Meetings}
+     */
     this.meetings = new Meetings(this);
     this.reports = new Reports(this);
   }

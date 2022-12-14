@@ -91,11 +91,26 @@ class Dashboards {
   }
 }
 
+/**
+ * Zoom Groups API.
+ *
+ * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#tag/Groups
+ */
 class Groups {
+  /**
+   * Make Groups instance.
+   *
+   * @param {Zoom} client
+   */
   constructor(client) {
     this.client = client;
   }
 
+  /**
+   * List groups under an account.
+   *
+   * @returns {Promise}
+   */
   listGroups() {
     return this.client.withTokenRefreshAttempt({
       method: "GET",
@@ -103,6 +118,13 @@ class Groups {
     });
   }
 
+  /**
+   * Get a group under an account.
+   *
+   * @param {string} groupId
+   *
+   * @returns {Promise}
+   */
   getAGroup(groupId) {
     return this.client.withTokenRefreshAttempt({
       method: "GET",
@@ -110,6 +132,16 @@ class Groups {
     });
   }
 
+  /**
+   * List the members of a group under your account.
+   *
+   * @param {string} groupId
+   * @param {Object} [params]
+   * @param {number} [params.page_size]
+   * @param {string} [params.next_page_token]
+   *
+   * @returns {Promise}
+   */
   listGroupMembers(groupId, { params = {} } = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
@@ -238,6 +270,11 @@ class Zoom {
      * @type {Dashboards}
      */
     this.dashboards = new Dashboards(this);
+    /**
+     * Groups API.
+     *
+     * @type {Groups}
+     */
     this.groups = new Groups(this);
     this.meetings = new Meetings(this);
     this.reports = new Reports(this);

@@ -4,6 +4,9 @@
 <dt><a href="#Dashboards">Dashboards</a></dt>
 <dd><p>Zoom Dashboards API.</p>
 </dd>
+<dt><a href="#Groups">Groups</a></dt>
+<dd><p>Zoom Groups API.</p>
+</dd>
 <dt><a href="#Zoom">Zoom</a></dt>
 <dd><p>Zoom API client.</p>
 </dd>
@@ -84,6 +87,61 @@ Get details on live or past meetings.
 | [params] | <code>Object</code> | 
 | [params.type] | <code>&quot;past&quot;</code> \| <code>&quot;pastOne&quot;</code> \| <code>&quot;live&quot;</code> | 
 
+<a name="Groups"></a>
+
+## Groups
+Zoom Groups API.
+
+**Kind**: global class  
+**See**: https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#tag/Groups  
+
+* [Groups](#Groups)
+    * [new Groups(client)](#new_Groups_new)
+    * [.listGroups()](#Groups+listGroups) ⇒ <code>Promise</code>
+    * [.getAGroup(groupId)](#Groups+getAGroup) ⇒ <code>Promise</code>
+    * [.listGroupMembers(groupId, [params])](#Groups+listGroupMembers) ⇒ <code>Promise</code>
+
+<a name="new_Groups_new"></a>
+
+### new Groups(client)
+Make Groups instance.
+
+
+| Param | Type |
+| --- | --- |
+| client | [<code>Zoom</code>](#Zoom) | 
+
+<a name="Groups+listGroups"></a>
+
+### groups.listGroups() ⇒ <code>Promise</code>
+List groups under an account.
+
+**Kind**: instance method of [<code>Groups</code>](#Groups)  
+<a name="Groups+getAGroup"></a>
+
+### groups.getAGroup(groupId) ⇒ <code>Promise</code>
+Get a group under an account.
+
+**Kind**: instance method of [<code>Groups</code>](#Groups)  
+
+| Param | Type |
+| --- | --- |
+| groupId | <code>string</code> | 
+
+<a name="Groups+listGroupMembers"></a>
+
+### groups.listGroupMembers(groupId, [params]) ⇒ <code>Promise</code>
+List the members of a group under your account.
+
+**Kind**: instance method of [<code>Groups</code>](#Groups)  
+
+| Param | Type |
+| --- | --- |
+| groupId | <code>string</code> | 
+| [params] | <code>Object</code> | 
+| [params.page_size] | <code>number</code> | 
+| [params.next_page_token] | <code>string</code> | 
+
 <a name="Zoom"></a>
 
 ## Zoom
@@ -94,6 +152,7 @@ Zoom API client.
 * [Zoom](#Zoom)
     * [new Zoom(params)](#new_Zoom_new)
     * [.dashboards](#Zoom+dashboards) : [<code>Dashboards</code>](#Dashboards)
+    * [.groups](#Zoom+groups) : [<code>Groups</code>](#Groups)
 
 <a name="new_Zoom_new"></a>
 
@@ -115,5 +174,11 @@ Make new client. This is the main entry point of the package.
 
 ### zoom.dashboards : [<code>Dashboards</code>](#Dashboards)
 Dashboards API.
+
+**Kind**: instance property of [<code>Zoom</code>](#Zoom)  
+<a name="Zoom+groups"></a>
+
+### zoom.groups : [<code>Groups</code>](#Groups)
+Groups API.
 
 **Kind**: instance property of [<code>Zoom</code>](#Zoom)  

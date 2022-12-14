@@ -8,7 +8,8 @@
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "docs": "jsdoc2md *.js > api.md"
   },
   "keywords": [
     "zoom",

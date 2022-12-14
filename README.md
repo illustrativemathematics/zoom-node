@@ -13,6 +13,8 @@ production with Node.js version 16.15.1.
 This library is based on the [Zoom Meeting API 2.0.0](https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#overview)
 REST API. More details can be found [there](https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#overview).
 
+This library's [API](api.md) can be found [here](api.md).
+
 ## Installation
 
 Install via npm:

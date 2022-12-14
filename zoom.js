@@ -1,11 +1,38 @@
 import { Buffer } from "node:buffer";
 import axios from "axios";
 
+/**
+ * Zoom Dashboards API.
+ *
+ * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#tag/Dashboards
+ */
 class Dashboards {
+  /**
+   * Make Dashboards instance.
+   *
+   * @param {Zoom} client
+   */
   constructor(client) {
     this.client = client;
   }
 
+  /**
+   * List total live or past meetings that occurred during a specified
+   * period of time.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetings
+   *
+   * @param {Object} [params]
+   * @param {"past"|"pastOne"|"live"} [params.type]
+   * @param {string} [params.from]
+   * @param {string} [params.to]
+   * @param {number} [params.page_size]
+   * @param {string} [params.next_page_token]
+   * @param {string} [params.group_id]
+   * @param {"tracking_fields"} [params.include_fields]
+   *
+   * @returns {Promise}
+   */
   listMeetings({ params = {} } = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
@@ -18,6 +45,20 @@ class Dashboards {
     );
   }
 
+  /**
+   * List participants from live or past meetings.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/dashboardMeetingParticipants
+   *
+   * @param {string} meetingId
+   * @param {Object} [params]
+   * @param {"past"|"pastOne"|"live"} [params.type]
+   * @param {number} [params.page_size]
+   * @param {string} [params.next_page_token]
+   * @param {"registrant_id"} [params.include_fields]
+   *
+   * @returns {Promise}
+   */
   listMeetingParticipants(meetingId, { params = {} } = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
@@ -30,6 +71,17 @@ class Dashboards {
     );
   }
 
+  /**
+   * Get details on live or past meetings.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/dashboardMeetingDetail
+   *
+   * @param {string} meetingId
+   * @param {Object} [params]
+   * @param {"past"|"pastOne"|"live"} [params.type]
+   *
+   * @returns {Promise}
+   */
   getMeetingDetails(meetingId, { params = {} } = {}) {
     return this.client.withTokenRefreshAttempt({
       method: "GET",

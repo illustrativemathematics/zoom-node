@@ -1,11 +1,38 @@
 import { Buffer } from "node:buffer";
 import axios from "axios";
 
+/**
+ * Zoom Dashboards API.
+ *
+ * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#tag/Dashboards
+ */
 class Dashboards {
+  /**
+   * Make Dashboards instance.
+   *
+   * @param {Zoom} client
+   */
   constructor(client) {
     this.client = client;
   }
 
+  /**
+   * List total live or past meetings that occurred during a specified
+   * period of time.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetings
+   *
+   * @param {Object} [params]
+   * @param {"past"|"pastOne"|"live"} [params.type]
+   * @param {string} [params.from]
+   * @param {string} [params.to]
+   * @param {number} [params.page_size]
+   * @param {string} [params.next_page_token]
+   * @param {string} [params.group_id]
+   * @param {"tracking_fields"} [params.include_fields]
+   *
+   * @returns {Promise}
+   */
   listMeetings({ params = {} } = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
@@ -18,6 +45,20 @@ class Dashboards {
     );
   }
 
+  /**
+   * List participants from live or past meetings.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/dashboardMeetingParticipants
+   *
+   * @param {string} meetingId
+   * @param {Object} [params]
+   * @param {"past"|"pastOne"|"live"} [params.type]
+   * @param {number} [params.page_size]
+   * @param {string} [params.next_page_token]
+   * @param {"registrant_id"} [params.include_fields]
+   *
+   * @returns {Promise}
+   */
   listMeetingParticipants(meetingId, { params = {} } = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
@@ -30,6 +71,17 @@ class Dashboards {
     );
   }
 
+  /**
+   * Get details on live or past meetings.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/dashboardMeetingDetail
+   *
+   * @param {string} meetingId
+   * @param {Object} [params]
+   * @param {"past"|"pastOne"|"live"} [params.type]
+   *
+   * @returns {Promise}
+   */
   getMeetingDetails(meetingId, { params = {} } = {}) {
     return this.client.withTokenRefreshAttempt({
       method: "GET",
@@ -39,11 +91,26 @@ class Dashboards {
   }
 }
 
+/**
+ * Zoom Groups API.
+ *
+ * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#tag/Groups
+ */
 class Groups {
+  /**
+   * Make Groups instance.
+   *
+   * @param {Zoom} client
+   */
   constructor(client) {
     this.client = client;
   }
 
+  /**
+   * List groups under an account.
+   *
+   * @returns {Promise}
+   */
   listGroups() {
     return this.client.withTokenRefreshAttempt({
       method: "GET",
@@ -51,6 +118,13 @@ class Groups {
     });
   }
 
+  /**
+   * Get a group under an account.
+   *
+   * @param {string} groupId
+   *
+   * @returns {Promise}
+   */
   getAGroup(groupId) {
     return this.client.withTokenRefreshAttempt({
       method: "GET",
@@ -58,6 +132,16 @@ class Groups {
     });
   }
 
+  /**
+   * List the members of a group under your account.
+   *
+   * @param {string} groupId
+   * @param {Object} [params]
+   * @param {number} [params.page_size]
+   * @param {string} [params.next_page_token]
+   *
+   * @returns {Promise}
+   */
   listGroupMembers(groupId, { params = {} } = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
@@ -71,11 +155,34 @@ class Groups {
   }
 }
 
+/**
+ * Zoom Meetings API.
+ *
+ * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#tag/Meetings
+ */
 class Meetings {
+  /**
+   * Make Meetings instance.
+   *
+   * @param {Zoom} client
+   */
   constructor(client) {
     this.client = client;
   }
 
+  /**
+   * List a user's (meeting host) scheduled meetings.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetings
+   *
+   * @param {number|string|"me"} userId
+   * @param {Object} [params]
+   * @param {"scheduled"|"live"|"upcoming"|"upcoming_meetings"|"previous_meetings"} [params.type]
+   * @param {number} [params.page_size]
+   * @param {string} [params.next_page_token]
+   *
+   * @returns {Promise}
+   */
   listMeetings(userId, { params = {} } = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
@@ -88,6 +195,18 @@ class Meetings {
     );
   }
 
+  /**
+   * Retrieve the details of a meeting.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meeting
+   *
+   * @param {number} meetingId
+   * @param {Object} [params]
+   * @param {string} [params.occurrence_id]
+   * @param {boolean} [params.show_previous_occurrences]
+   *
+   * @returns {Promise}
+   */
   getAMeeting(meetingId, { params = {} } = {}) {
     return this.client.withTokenRefreshAttempt({
       method: "GET",
@@ -96,6 +215,18 @@ class Meetings {
     });
   }
 
+  /**
+   * Retrieve information on participants from a past meeting.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/pastMeetingParticipants
+   *
+   * @param {string} meetingId
+   * @param {Object} [params]
+   * @param {number} [params.page_size]
+   * @param {string} [params.next_page_token]
+   *
+   * @returns {Promise}
+   */
   getPastMeetingParticipants(meetingId, { params = {} } = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
@@ -109,11 +240,35 @@ class Meetings {
   }
 }
 
+/**
+ * Zoom Reports API.
+ *
+ * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#tag/Reports
+ */
 class Reports {
+  /**
+   * Make Reports instance.
+   *
+   * @param {Zoom} client
+   */
   constructor(client) {
     this.client = client;
   }
 
+  /**
+   * Return a report of a past meeting with two or more participants,
+   * including the host.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/reportMeetingParticipants
+   *
+   * @param {string} meetingId
+   * @param {Object} [params]
+   * @param {number} [params.page_size]
+   * @param {string} [params.next_page_token]
+   * @param {"registrant_id"} [params.include_fields]
+   *
+   * @returns {Promise}
+   */
   getMeetingParticipantReports(meetingId, { params = {} } = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
@@ -127,7 +282,21 @@ class Reports {
   }
 }
 
-export default class Zoom {
+/**
+ * Zoom API client.
+ */
+class Zoom {
+  /**
+   * Make new client. This is the main entry point of the package.
+   *
+   * @param {Object} params
+   * @param {string} params.accountId
+   * @param {string} params.clientId
+   * @param {string} params.clientSecret
+   * @param {string} [params.baseURL]
+   * @param {string} [params.baseAuthURL]
+   * @param {number} [params.timeout]
+   */
   constructor({
     accountId,
     clientId,
@@ -166,10 +335,29 @@ export default class Zoom {
       return conf;
     });
 
-    // Set up resources.
+    /**
+     * Dashboards API.
+     *
+     * @type {Dashboards}
+     */
     this.dashboards = new Dashboards(this);
+    /**
+     * Groups API.
+     *
+     * @type {Groups}
+     */
     this.groups = new Groups(this);
+    /**
+     * Meetings API.
+     *
+     * @type {Meetings}
+     */
     this.meetings = new Meetings(this);
+    /**
+     * Reports API.
+     *
+     * @type {Reports}
+     */
     this.reports = new Reports(this);
   }
 
@@ -285,3 +473,5 @@ export default class Zoom {
     });
   }
 }
+
+export default Zoom;

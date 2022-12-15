@@ -22,14 +22,15 @@ class Dashboards {
    *
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetings
    *
-   * @param {Object} [params]
-   * @param {"past"|"pastOne"|"live"} [params.type]
-   * @param {string} [params.from]
-   * @param {string} [params.to]
-   * @param {number} [params.page_size]
-   * @param {string} [params.next_page_token]
-   * @param {string} [params.group_id]
-   * @param {"tracking_fields"} [params.include_fields]
+   * @param {Object} [config]
+   * @param {Object} [config.params]
+   * @param {"past"|"pastOne"|"live"} [config.params.type]
+   * @param {string} [config.params.from]
+   * @param {string} [config.params.to]
+   * @param {number} [config.params.page_size]
+   * @param {string} [config.params.next_page_token]
+   * @param {string} [config.params.group_id]
+   * @param {"tracking_fields"} [config.params.include_fields]
    *
    * @returns {Promise}
    */
@@ -51,11 +52,12 @@ class Dashboards {
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/dashboardMeetingParticipants
    *
    * @param {string} meetingId
-   * @param {Object} [params]
-   * @param {"past"|"pastOne"|"live"} [params.type]
-   * @param {number} [params.page_size]
-   * @param {string} [params.next_page_token]
-   * @param {"registrant_id"} [params.include_fields]
+   * @param {Object} [config]
+   * @param {Object} [config.params]
+   * @param {"past"|"pastOne"|"live"} [config.params.type]
+   * @param {number} [config.params.page_size]
+   * @param {string} [config.params.next_page_token]
+   * @param {"registrant_id"} [config.params.include_fields]
    *
    * @returns {Promise}
    */
@@ -77,8 +79,9 @@ class Dashboards {
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/dashboardMeetingDetail
    *
    * @param {string} meetingId
-   * @param {Object} [params]
-   * @param {"past"|"pastOne"|"live"} [params.type]
+   * @param {Object} [config]
+   * @param {Object} [config.params]
+   * @param {"past"|"pastOne"|"live"} [config.params.type]
    *
    * @returns {Promise}
    */
@@ -109,6 +112,8 @@ class Groups {
   /**
    * List groups under an account.
    *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/groups
+   *
    * @returns {Promise}
    */
   listGroups() {
@@ -120,6 +125,8 @@ class Groups {
 
   /**
    * Get a group under an account.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/group
    *
    * @param {string} groupId
    *
@@ -135,10 +142,13 @@ class Groups {
   /**
    * List the members of a group under your account.
    *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/groupMembers
+   *
    * @param {string} groupId
-   * @param {Object} [params]
-   * @param {number} [params.page_size]
-   * @param {string} [params.next_page_token]
+   * @param {Object} [config]
+   * @param {Object} [config.params]
+   * @param {number} [config.params.page_size]
+   * @param {string} [config.params.next_page_token]
    *
    * @returns {Promise}
    */
@@ -176,10 +186,11 @@ class Meetings {
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetings
    *
    * @param {number|string|"me"} userId
-   * @param {Object} [params]
-   * @param {"scheduled"|"live"|"upcoming"|"upcoming_meetings"|"previous_meetings"} [params.type]
-   * @param {number} [params.page_size]
-   * @param {string} [params.next_page_token]
+   * @param {Object} [config]
+   * @param {Object} [config.params]
+   * @param {"scheduled"|"live"|"upcoming"|"upcoming_meetings"|"previous_meetings"} [config.params.type]
+   * @param {number} [config.params.page_size]
+   * @param {string} [config.params.next_page_token]
    *
    * @returns {Promise}
    */
@@ -201,9 +212,10 @@ class Meetings {
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meeting
    *
    * @param {number} meetingId
-   * @param {Object} [params]
-   * @param {string} [params.occurrence_id]
-   * @param {boolean} [params.show_previous_occurrences]
+   * @param {Object} [config]
+   * @param {Object} [config.params]
+   * @param {string} [config.params.occurrence_id]
+   * @param {boolean} [config.params.show_previous_occurrences]
    *
    * @returns {Promise}
    */
@@ -221,9 +233,10 @@ class Meetings {
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/pastMeetingParticipants
    *
    * @param {string} meetingId
-   * @param {Object} [params]
-   * @param {number} [params.page_size]
-   * @param {string} [params.next_page_token]
+   * @param {Object} [config]
+   * @param {Object} [config.params]
+   * @param {number} [config.params.page_size]
+   * @param {string} [config.params.next_page_token]
    *
    * @returns {Promise}
    */
@@ -262,10 +275,11 @@ class Reports {
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/reportMeetingParticipants
    *
    * @param {string} meetingId
-   * @param {Object} [params]
-   * @param {number} [params.page_size]
-   * @param {string} [params.next_page_token]
-   * @param {"registrant_id"} [params.include_fields]
+   * @param {Object} [config]
+   * @param {Object} [config.params]
+   * @param {number} [config.params.page_size]
+   * @param {string} [config.params.next_page_token]
+   * @param {"registrant_id"} [config.params.include_fields]
    *
    * @returns {Promise}
    */
@@ -289,13 +303,13 @@ class Zoom {
   /**
    * Make new client. This is the main entry point of the package.
    *
-   * @param {Object} params
-   * @param {string} params.accountId
-   * @param {string} params.clientId
-   * @param {string} params.clientSecret
-   * @param {string} [params.baseURL]
-   * @param {string} [params.baseAuthURL]
-   * @param {number} [params.timeout]
+   * @param {Object} config
+   * @param {string} config.accountId
+   * @param {string} config.clientId
+   * @param {string} config.clientSecret
+   * @param {string} [config.baseURL]
+   * @param {string} [config.baseAuthURL]
+   * @param {number} [config.timeout]
    */
   constructor({
     accountId,

@@ -106,9 +106,8 @@ test("client auth retry after unauthorized", async () => {
   );
 
   const spy = jest.spyOn(client.auth, "request");
-  // List groups four times.
+  // List groups three times.
   await client.groups.listGroups(); // Call auth with unauthorized response.
-  await client.groups.listGroups(); // Call auth with authorized response.
   await client.groups.listGroups(); // Do not call auth.
   await client.groups.listGroups(); // Do not call auth.
 

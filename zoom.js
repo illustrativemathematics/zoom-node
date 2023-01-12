@@ -435,7 +435,7 @@ class Zoom {
     return Object.assign(firstPage, {
       async *[Symbol.asyncIterator]() {
         for await (const page of this.pages()) {
-          for (const item of page.data[itemsName]) {
+          for (const item of page[itemsName]) {
             yield item;
           }
         }
@@ -477,7 +477,7 @@ class Zoom {
       })(),
 
       async _nextPage(page) {
-        if (!page || !page.data[tokenName]) {
+        if (!page || !page[tokenName]) {
           return null;
         }
 
@@ -485,7 +485,7 @@ class Zoom {
           ...conf,
           params: {
             ...(conf.params || {}),
-            [tokenName]: page.data[tokenName],
+            [tokenName]: page[tokenName],
           },
         });
       },

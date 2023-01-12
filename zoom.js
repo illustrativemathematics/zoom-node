@@ -391,11 +391,15 @@ class Zoom {
     })();
   }
 
+  makeAPIRequest(conf) {
+    return this.api.request(conf).then((resp) => resp.data);
+  }
+
   // We want to write this method like this so `this` is still bound to
   // its context, even if the method is passed as an argument. E.g., see
   // `groupMembers` above.
   withTokenRefreshAttempt = (conf) => {
-    return this.api.request(conf).catch((err) => {
+    return this.makeAPIRequest(conf).catch((err) => {
       if (err.response.status === 401) {
         // Try once to reset token function so that a fresh request will
         // be made (and cached) for a new access token.
@@ -403,7 +407,7 @@ class Zoom {
         // @see https://marketplace.zoom.us/docs/guides/build/server-to-server-oauth-app/
         this.setTokenFunc();
         // Retry original API request.
-        return this.api.request(conf);
+        return this.makeAPIRequest(conf);
       }
 
       throw err;
@@ -430,7 +434,7 @@ class Zoom {
     return Object.assign(firstPage, {
       async *[Symbol.asyncIterator]() {
         for await (const page of this.pages()) {
-          for (const item of page.data[itemsName]) {
+          for (const item of page[itemsName]) {
             yield item;
           }
         }
@@ -472,7 +476,7 @@ class Zoom {
       })(),
 
       async _nextPage(page) {
-        if (!page || !page.data[tokenName]) {
+        if (!page || !page[tokenName]) {
           return null;
         }
 
@@ -480,7 +484,7 @@ class Zoom {
           ...conf,
           params: {
             ...(conf.params || {}),
-            [tokenName]: page.data[tokenName],
+            [tokenName]: page[tokenName],
           },
         });
       },

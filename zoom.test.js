@@ -3,12 +3,6 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 import Zoom from "./";
 
-const client = new Zoom({
-  accountId: "xxxxx",
-  clientId: "xxxxx",
-  clientSecret: "xxxxx",
-});
-
 const server = setupServer(
   rest.post("https://zoom.us/oauth/token", (_req, res, ctx) => {
     return res(
@@ -72,7 +66,16 @@ beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
+const makeClient = () => {
+  return new Zoom({
+    accountId: "xxxxx",
+    clientId: "xxxxx",
+    clientSecret: "xxxxx",
+  });
+};
+
 test("client auth before request", async () => {
+  const client = makeClient();
   const spy = jest.spyOn(client.auth, "request");
   await client.groups.listGroups();
 
@@ -80,12 +83,14 @@ test("client auth before request", async () => {
 });
 
 test("client response contains data", async () => {
-  const resp = await client.groups.listGroups();
+  const client = makeClient();
+  const data = await client.groups.listGroups();
 
-  expect(resp.data.total_records).toBe(2);
+  expect(data.total_records).toBe(2);
 });
 
 test("client auth once for authorized", async () => {
+  const client = makeClient();
   const spy = jest.spyOn(client.auth, "request");
   // List groups twice.
   await client.groups.listGroups(); // Call auth with authorized response.
@@ -95,24 +100,49 @@ test("client auth once for authorized", async () => {
 });
 
 test("client auth retry after unauthorized", async () => {
-  let reqId = 0;
+  // Simulate the seed auth token being stale on the first API request.
   server.use(
     rest.get("https://api.zoom.us/v2/groups", (_req, res, ctx) => {
-      const status = reqId < 1 ? 401 : 200;
-      reqId++;
-
-      return res(ctx.status(status));
+      return res.once(ctx.status(401));
     })
   );
 
+  const client = makeClient();
   const spy = jest.spyOn(client.auth, "request");
-  // List groups four times.
+  // List groups three times.
   await client.groups.listGroups(); // Call auth with unauthorized response.
-  await client.groups.listGroups(); // Call auth with authorized response.
   await client.groups.listGroups(); // Do not call auth.
   await client.groups.listGroups(); // Do not call auth.
 
   expect(spy).toHaveBeenCalledTimes(2);
+});
+
+test("client api retry after unauthorized", async () => {
+  // Simulate the seed auth token being stale on the first API request.
+  server.use(
+    rest.get("https://api.zoom.us/v2/groups", (_req, res, ctx) => {
+      return res.once(ctx.status(401));
+    })
+  );
+
+  const client = makeClient();
+  const spy = jest.spyOn(client.api, "request");
+  await client.groups.listGroups(); // Call auth with unauthorized response.
+
+  expect(spy).toHaveBeenCalledTimes(2);
+});
+
+test("client auth retry only once", async () => {
+  server.use(
+    rest.get("https://api.zoom.us/v2/groups", (_req, res, ctx) => {
+      return res(ctx.status(401));
+    })
+  );
+
+  const client = makeClient();
+
+  // Consecutive unauthorized response throws.
+  await expect(client.groups.listGroups()).rejects.toThrow();
 });
 
 test("client throws for other error statuses", async () => {
@@ -122,22 +152,37 @@ test("client throws for other error statuses", async () => {
     })
   );
 
+  const client = makeClient();
+
+  await expect(client.groups.listGroups()).rejects.toThrow();
+});
+
+test("client throws for auth token errors", async () => {
+  server.use(
+    rest.post("https://zoom.us/oauth/token", (_req, res, ctx) => {
+      return res.once(ctx.status(500));
+    })
+  );
+
+  const client = makeClient();
+
   await expect(client.groups.listGroups()).rejects.toThrow();
 });
 
 test("client paginates manually", async () => {
+  const client = makeClient();
   let emails = [];
-  for (let i = 0, resp = null; i < 3; i++) {
+  for (let i = 0, page = null; i < 3; i++) {
     // Use the previous response value, if available, to page.
-    const pager = resp ? { next_page_token: resp.data.next_page_token } : {};
-    resp = await client.groups.listGroupMembers("abc", {
+    const pager = page ? { next_page_token: page.next_page_token } : {};
+    page = await client.groups.listGroupMembers("abc", {
       params: {
         page_size: 1, // Mock responses only contain one member.
         ...pager,
       },
     });
 
-    emails.push(resp.data.members[0].email);
+    emails.push(page.members[0].email);
   }
 
   // The Zoom API responds with the first page if `next_page_token` is not
@@ -151,6 +196,7 @@ test("client paginates manually", async () => {
 });
 
 test("client paginates with `for await...of` statement", async () => {
+  const client = makeClient();
   let emails = [];
   for await (const member of client.groups.listGroupMembers("abc", {
     params: {
@@ -164,6 +210,7 @@ test("client paginates with `for await...of` statement", async () => {
 });
 
 test("client paginates pages with `for await...of` statement", async () => {
+  const client = makeClient();
   let emails = [];
   for await (const page of client.groups
     .listGroupMembers("abc", {
@@ -172,13 +219,14 @@ test("client paginates pages with `for await...of` statement", async () => {
       },
     })
     .pages()) {
-    emails = emails.concat(page.data.members.map((member) => member.email));
+    emails = emails.concat(page.members.map((member) => member.email));
   }
 
   expect(emails).toEqual(["jane.smith@example.org", "john.smith@example.org"]);
 });
 
 test("client paginates with `nextPage` helper", async () => {
+  const client = makeClient();
   let emails = [];
   const pager = client.groups.listGroupMembers("abc", {
     params: {
@@ -191,7 +239,7 @@ test("client paginates with `nextPage` helper", async () => {
       break;
     }
 
-    emails = emails.concat(page.data.members.map((member) => member.email));
+    emails = emails.concat(page.members.map((member) => member.email));
   }
 
   expect(emails).toEqual(["jane.smith@example.org", "john.smith@example.org"]);

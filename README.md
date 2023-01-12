@@ -1,12 +1,12 @@
 # Zoom Node.js Library
 
-The Zoom Node.js library provides convenient access to Zoom's REST API.
+The Zoom Node.js library provides convenient access to Zoom's Meeting API.
 This client library assumes usage of the [Server-to-Server OAuth](https://marketplace.zoom.us/docs/guides/build/server-to-server-oauth-app/)
 authentication flow.
 
 **Note:** This library is a work-in-progress and does not exhaustively
-cover the Zoom REST API. Additionally, it's only been used in
-production with Node.js version 16.15.1.
+cover the API. Additionally, it's only been used in production with Node.js
+version 16.15.1.
 
 ## Documentation
 
@@ -61,12 +61,9 @@ the client instance. To fetch a specific meeting:
 ```js
 const meetingId = 12345;
 // Use `client` instance from initialization above.
-const response = await client.meetings.getAMeeting(meetingId);
-console.log(response.data);
+const data = await client.meetings.getAMeeting(meetingId);
+console.log(data);
 ```
-
-This library uses the [Axios HTTP Client](https://axios-http.com/). The
-response schema is the default [Axios Response Schema](https://axios-http.com/docs/res_schema).
 
 Endpoints with list/collection responses behave similarly. To fetch a list
 of participants using [Dashboards](https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#tag/Dashboards):
@@ -79,7 +76,7 @@ const response = await client.dashboards.listMeetingParticipants(meetingId, {
     type: "past",
   },
 });
-console.log(response.data.participants);
+console.log(data.participants);
 ```
 
 The above example demonstrates passing query string arguments.
@@ -98,16 +95,16 @@ const firstPage = await client.dashboards.listMeetingParticipants(meetingId, {
     type: "past",
   },
 });
-console.log(firstPage.data.participants);
+console.log(firstPage.participants);
 
 const nextPage = await client.dashboards.listMeetingParticipants(meetingId, {
   params: {
     type: "past",
     // Use `firstPage` token provided by Zoom to fetch next page.
-    next_page_token: firstPage.data.next_page_token,
+    next_page_token: firstPage.next_page_token,
   },
 });
-console.log(nextPage.data.participants);
+console.log(nextPage.participants);
 ```
 
 List/collection items can also be paginated without manually refetching
@@ -143,7 +140,7 @@ for await (const page of client.dashboards
   .pages()) {
   // <-- Note the `.pages` call here.
   // Note that this is a page of items.
-  console.log(page.data.participants);
+  console.log(page.participants);
 }
 ```
 
@@ -163,7 +160,7 @@ while (true) {
     break;
   }
 
-  console.log(page.data.participants);
+  console.log(page.participants);
 }
 ```
 

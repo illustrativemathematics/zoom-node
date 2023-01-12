@@ -115,6 +115,17 @@ test("client auth retry after unauthorized", async () => {
   expect(spy).toHaveBeenCalledTimes(2);
 });
 
+test("client auth retries only once", async () => {
+  server.use(
+    rest.get("https://api.zoom.us/v2/groups", (_req, res, ctx) => {
+      return res(ctx.status(401));
+    })
+  );
+
+  // Consecutive unauthorized response throws.
+  await expect(client.groups.listGroups()).rejects.toThrow();
+});
+
 test("client throws for other error statuses", async () => {
   server.use(
     rest.get("https://api.zoom.us/v2/groups", (_req, res, ctx) => {

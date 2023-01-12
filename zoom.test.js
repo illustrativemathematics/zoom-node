@@ -3,12 +3,6 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 import Zoom from "./";
 
-const client = new Zoom({
-  accountId: "xxxxx",
-  clientId: "xxxxx",
-  clientSecret: "xxxxx",
-});
-
 const server = setupServer(
   rest.post("https://zoom.us/oauth/token", (_req, res, ctx) => {
     return res(
@@ -72,7 +66,16 @@ beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
+const makeClient = () => {
+  return new Zoom({
+    accountId: "xxxxx",
+    clientId: "xxxxx",
+    clientSecret: "xxxxx",
+  });
+};
+
 test("client auth before request", async () => {
+  const client = makeClient();
   const spy = jest.spyOn(client.auth, "request");
   await client.groups.listGroups();
 
@@ -80,12 +83,14 @@ test("client auth before request", async () => {
 });
 
 test("client response contains data", async () => {
+  const client = makeClient();
   const data = await client.groups.listGroups();
 
   expect(data.total_records).toBe(2);
 });
 
 test("client auth once for authorized", async () => {
+  const client = makeClient();
   const spy = jest.spyOn(client.auth, "request");
   // List groups twice.
   await client.groups.listGroups(); // Call auth with authorized response.
@@ -102,6 +107,7 @@ test("client auth retry after unauthorized", async () => {
     })
   );
 
+  const client = makeClient();
   const spy = jest.spyOn(client.auth, "request");
   // List groups three times.
   await client.groups.listGroups(); // Call auth with unauthorized response.
@@ -119,6 +125,7 @@ test("client api retry after unauthorized", async () => {
     })
   );
 
+  const client = makeClient();
   const spy = jest.spyOn(client.api, "request");
   await client.groups.listGroups(); // Call auth with unauthorized response.
 
@@ -132,6 +139,8 @@ test("client auth retry only once", async () => {
     })
   );
 
+  const client = makeClient();
+
   // Consecutive unauthorized response throws.
   await expect(client.groups.listGroups()).rejects.toThrow();
 });
@@ -142,6 +151,8 @@ test("client throws for other error statuses", async () => {
       return res(ctx.status(400));
     })
   );
+
+  const client = makeClient();
 
   await expect(client.groups.listGroups()).rejects.toThrow();
 });
@@ -157,6 +168,7 @@ test("client throws for other error statuses", async () => {
 //});
 
 test("client paginates manually", async () => {
+  const client = makeClient();
   let emails = [];
   for (let i = 0, page = null; i < 3; i++) {
     // Use the previous response value, if available, to page.
@@ -182,6 +194,7 @@ test("client paginates manually", async () => {
 });
 
 test("client paginates with `for await...of` statement", async () => {
+  const client = makeClient();
   let emails = [];
   for await (const member of client.groups.listGroupMembers("abc", {
     params: {
@@ -195,6 +208,7 @@ test("client paginates with `for await...of` statement", async () => {
 });
 
 test("client paginates pages with `for await...of` statement", async () => {
+  const client = makeClient();
   let emails = [];
   for await (const page of client.groups
     .listGroupMembers("abc", {
@@ -210,6 +224,7 @@ test("client paginates pages with `for await...of` statement", async () => {
 });
 
 test("client paginates with `nextPage` helper", async () => {
+  const client = makeClient();
   let emails = [];
   const pager = client.groups.listGroupMembers("abc", {
     params: {

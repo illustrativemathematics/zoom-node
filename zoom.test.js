@@ -96,13 +96,9 @@ test("client auth once for authorized", async () => {
 
 test("client auth retry after unauthorized", async () => {
   // Simulate the seed auth token being stale on the first API request.
-  let reqId = 0;
   server.use(
     rest.get("https://api.zoom.us/v2/groups", (_req, res, ctx) => {
-      const status = reqId < 1 ? 401 : 200;
-      reqId++;
-
-      return res(ctx.status(status));
+      return res.once(ctx.status(401));
     })
   );
 
@@ -117,13 +113,9 @@ test("client auth retry after unauthorized", async () => {
 
 test("client api retry after unauthorized", async () => {
   // Simulate the seed auth token being stale on the first API request.
-  let reqId = 0;
   server.use(
     rest.get("https://api.zoom.us/v2/groups", (_req, res, ctx) => {
-      const status = reqId < 1 ? 401 : 200;
-      reqId++;
-
-      return res(ctx.status(status));
+      return res.once(ctx.status(401));
     })
   );
 
@@ -153,6 +145,16 @@ test("client throws for other error statuses", async () => {
 
   await expect(client.groups.listGroups()).rejects.toThrow();
 });
+
+//test("client throws for auth token errors", async () => {
+//  server.use(
+//    rest.post("https://zoom.us/oauth/token", (_req, res, ctx) => {
+//      return res.once(ctx.status(500));
+//    })
+//  );
+//
+//  await expect(client.groups.listGroups()).rejects.toThrow();
+//});
 
 test("client paginates manually", async () => {
   let emails = [];

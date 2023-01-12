@@ -95,6 +95,7 @@ test("client auth once for authorized", async () => {
 });
 
 test("client auth retry after unauthorized", async () => {
+  // Simulate the seed auth token being stale on the first API request.
   let reqId = 0;
   server.use(
     rest.get("https://api.zoom.us/v2/groups", (_req, res, ctx) => {
@@ -115,6 +116,7 @@ test("client auth retry after unauthorized", async () => {
 });
 
 test("client api retry after unauthorized", async () => {
+  // Simulate the seed auth token being stale on the first API request.
   let reqId = 0;
   server.use(
     rest.get("https://api.zoom.us/v2/groups", (_req, res, ctx) => {

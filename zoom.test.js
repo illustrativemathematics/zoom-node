@@ -114,6 +114,23 @@ test("client auth retry after unauthorized", async () => {
   expect(spy).toHaveBeenCalledTimes(2);
 });
 
+test("client api retry after unauthorized", async () => {
+  let reqId = 0;
+  server.use(
+    rest.get("https://api.zoom.us/v2/groups", (_req, res, ctx) => {
+      const status = reqId < 1 ? 401 : 200;
+      reqId++;
+
+      return res(ctx.status(status));
+    })
+  );
+
+  const spy = jest.spyOn(client.api, "request");
+  await client.groups.listGroups(); // Call auth with unauthorized response.
+
+  expect(spy).toHaveBeenCalledTimes(2);
+});
+
 test("client auth retry only once", async () => {
   server.use(
     rest.get("https://api.zoom.us/v2/groups", (_req, res, ctx) => {

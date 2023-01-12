@@ -395,7 +395,6 @@ class Zoom {
     return this.api.request(conf).then((resp) => resp.data);
   }
 
-
   // We want to write this method like this so `this` is still bound to
   // its context, even if the method is passed as an argument. E.g., see
   // `groupMembers` above.

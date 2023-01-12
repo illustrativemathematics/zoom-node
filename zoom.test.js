@@ -127,17 +127,17 @@ test("client throws for other error statuses", async () => {
 
 test("client paginates manually", async () => {
   let emails = [];
-  for (let i = 0, data = null; i < 3; i++) {
+  for (let i = 0, page = null; i < 3; i++) {
     // Use the previous response value, if available, to page.
-    const pager = data ? { next_page_token: data.next_page_token } : {};
-    data = await client.groups.listGroupMembers("abc", {
+    const pager = page ? { next_page_token: page.next_page_token } : {};
+    page = await client.groups.listGroupMembers("abc", {
       params: {
         page_size: 1, // Mock responses only contain one member.
         ...pager,
       },
     });
 
-    emails.push(data.members[0].email);
+    emails.push(page.members[0].email);
   }
 
   // The Zoom API responds with the first page if `next_page_token` is not
@@ -165,14 +165,14 @@ test("client paginates with `for await...of` statement", async () => {
 
 test("client paginates pages with `for await...of` statement", async () => {
   let emails = [];
-  for await (const data of client.groups
+  for await (const page of client.groups
     .listGroupMembers("abc", {
       params: {
         page_size: 1, // Mock responses only contain one member.
       },
     })
     .pages()) {
-    emails = emails.concat(data.members.map((member) => member.email));
+    emails = emails.concat(page.members.map((member) => member.email));
   }
 
   expect(emails).toEqual(["jane.smith@example.org", "john.smith@example.org"]);
@@ -186,12 +186,12 @@ test("client paginates with `nextPage` helper", async () => {
     },
   });
   while (true) {
-    const data = await pager.nextPage();
-    if (!data) {
+    const page = await pager.nextPage();
+    if (!page) {
       break;
     }
 
-    emails = emails.concat(data.members.map((member) => member.email));
+    emails = emails.concat(page.members.map((member) => member.email));
   }
 
   expect(emails).toEqual(["jane.smith@example.org", "john.smith@example.org"]);

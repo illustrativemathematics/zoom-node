@@ -80,9 +80,9 @@ test("client auth before request", async () => {
 });
 
 test("client response contains data", async () => {
-  const resp = await client.groups.listGroups();
+  const data = await client.groups.listGroups();
 
-  expect(resp.data.total_records).toBe(2);
+  expect(data.total_records).toBe(2);
 });
 
 test("client auth once for authorized", async () => {
@@ -127,17 +127,17 @@ test("client throws for other error statuses", async () => {
 
 test("client paginates manually", async () => {
   let emails = [];
-  for (let i = 0, resp = null; i < 3; i++) {
+  for (let i = 0, data = null; i < 3; i++) {
     // Use the previous response value, if available, to page.
-    const pager = resp ? { next_page_token: resp.data.next_page_token } : {};
-    resp = await client.groups.listGroupMembers("abc", {
+    const pager = data ? { next_page_token: data.next_page_token } : {};
+    data = await client.groups.listGroupMembers("abc", {
       params: {
         page_size: 1, // Mock responses only contain one member.
         ...pager,
       },
     });
 
-    emails.push(resp.data.members[0].email);
+    emails.push(data.members[0].email);
   }
 
   // The Zoom API responds with the first page if `next_page_token` is not
@@ -165,14 +165,14 @@ test("client paginates with `for await...of` statement", async () => {
 
 test("client paginates pages with `for await...of` statement", async () => {
   let emails = [];
-  for await (const page of client.groups
+  for await (const data of client.groups
     .listGroupMembers("abc", {
       params: {
         page_size: 1, // Mock responses only contain one member.
       },
     })
     .pages()) {
-    emails = emails.concat(page.data.members.map((member) => member.email));
+    emails = emails.concat(data.members.map((member) => member.email));
   }
 
   expect(emails).toEqual(["jane.smith@example.org", "john.smith@example.org"]);
@@ -186,12 +186,12 @@ test("client paginates with `nextPage` helper", async () => {
     },
   });
   while (true) {
-    const page = await pager.nextPage();
-    if (!page) {
+    const data = await pager.nextPage();
+    if (!data) {
       break;
     }
 
-    emails = emails.concat(page.data.members.map((member) => member.email));
+    emails = emails.concat(data.members.map((member) => member.email));
   }
 
   expect(emails).toEqual(["jane.smith@example.org", "john.smith@example.org"]);

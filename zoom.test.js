@@ -157,15 +157,17 @@ test("client throws for other error statuses", async () => {
   await expect(client.groups.listGroups()).rejects.toThrow();
 });
 
-//test("client throws for auth token errors", async () => {
-//  server.use(
-//    rest.post("https://zoom.us/oauth/token", (_req, res, ctx) => {
-//      return res.once(ctx.status(500));
-//    })
-//  );
-//
-//  await expect(client.groups.listGroups()).rejects.toThrow();
-//});
+test("client throws for auth token errors", async () => {
+  server.use(
+    rest.post("https://zoom.us/oauth/token", (_req, res, ctx) => {
+      return res.once(ctx.status(500));
+    })
+  );
+
+  const client = makeClient();
+
+  await expect(client.groups.listGroups()).rejects.toThrow();
+});
 
 test("client paginates manually", async () => {
   const client = makeClient();

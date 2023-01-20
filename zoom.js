@@ -251,6 +251,28 @@ class Meetings {
       "participants"
     );
   }
+
+  /**
+   * Delete a meeting.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetingDelete
+   *
+   * @param {number} meetingId
+   * @param {Object} [config]
+   * @param {Object} [config.params]
+   * @param {string} [config.params.occurrence_id]
+   * @param {boolean} [config.params.schedule_for_reminder]
+   * @param {boolean} [config.params.cancel_meeting_reminder]
+   *
+   * @returns {Promise}
+   */
+  deleteAMeeting(meetingId, { params = {} } = {}) {
+    return this.client.withTokenRefreshAttempt({
+      method: "DELETE",
+      url: `/meetings/${meetingId}`,
+      params,
+    });
+  }
 }
 
 /**

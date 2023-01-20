@@ -251,6 +251,62 @@ class Meetings {
       "participants"
     );
   }
+
+  /**
+   * Retrieve the meeting invite note that was sent for a specific meeting.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetingInvitation
+   *
+   * @param {number} meetingId
+   *
+   * @returns {Promise}
+   */
+  getMeetingInvitation(meetingId) {
+    return this.client.withTokenRefreshAttempt({
+      method: "GET",
+      url: `/meetings/${meetingId}/invitation`,
+    });
+  }
+
+  /**
+   * Create a meeting for a user.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetingCreate
+   *
+   * @param {number|string|"me"} userId
+   * @param {Object} meeting
+   *
+   * @returns {Promise}
+   */
+  createAMeeting(userId, meeting) {
+    return this.client.withTokenRefreshAttempt({
+      method: "POST",
+      url: `/users/${userId}/meetings`,
+      data: meeting,
+    });
+  }
+
+  /**
+   * Delete a meeting.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetingDelete
+   *
+   * @param {number} meetingId
+   * @param {Object} [config]
+   * @param {Object} [config.params]
+   * @param {string} [config.params.occurrence_id]
+   * @param {boolean} [config.params.schedule_for_reminder]
+   * @param {boolean} [config.params.cancel_meeting_reminder]
+   *
+   * @returns {Promise}
+   */
+  deleteAMeeting(meetingId, { params = {} } = {}) {
+    return this.client.withTokenRefreshAttempt({
+      method: "DELETE",
+      url: `/meetings/${meetingId}`,
+      params,
+    });
+  }
 }
 
 /**

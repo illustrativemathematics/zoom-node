@@ -177,6 +177,9 @@ Zoom Meetings API.
   - [.listMeetings(userId, [config])](#Meetings+listMeetings) ⇒ <code>Promise</code>
   - [.getAMeeting(meetingId, [config])](#Meetings+getAMeeting) ⇒ <code>Promise</code>
   - [.getPastMeetingParticipants(meetingId, [config])](#Meetings+getPastMeetingParticipants) ⇒ <code>Promise</code>
+  - [.getMeetingInvitation(meetingId)](#Meetings+getMeetingInvitation) ⇒ <code>Promise</code>
+  - [.createAMeeting(userId, meeting)](#Meetings+createAMeeting) ⇒ <code>Promise</code>
+  - [.deleteAMeeting(meetingId, [config])](#Meetings+deleteAMeeting) ⇒ <code>Promise</code>
 
 <a name="new_Meetings_new"></a>
 
@@ -239,6 +242,51 @@ Retrieve information on participants from a past meeting.
 | [config.params]                 | <code>Object</code> |
 | [config.params.page_size]       | <code>number</code> |
 | [config.params.next_page_token] | <code>string</code> |
+
+<a name="Meetings+getMeetingInvitation"></a>
+
+### meetings.getMeetingInvitation(meetingId) ⇒ <code>Promise</code>
+
+Retrieve the meeting invite note that was sent for a specific meeting.
+
+**Kind**: instance method of [<code>Meetings</code>](#Meetings)  
+**See**: https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetingInvitation
+
+| Param     | Type                |
+| --------- | ------------------- |
+| meetingId | <code>number</code> |
+
+<a name="Meetings+createAMeeting"></a>
+
+### meetings.createAMeeting(userId, meeting) ⇒ <code>Promise</code>
+
+Create a meeting for a user.
+
+**Kind**: instance method of [<code>Meetings</code>](#Meetings)  
+**See**: https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetingCreate
+
+| Param   | Type                                                                      |
+| ------- | ------------------------------------------------------------------------- |
+| userId  | <code>number</code> \| <code>string</code> \| <code>&quot;me&quot;</code> |
+| meeting | <code>Object</code>                                                       |
+
+<a name="Meetings+deleteAMeeting"></a>
+
+### meetings.deleteAMeeting(meetingId, [config]) ⇒ <code>Promise</code>
+
+Delete a meeting.
+
+**Kind**: instance method of [<code>Meetings</code>](#Meetings)  
+**See**: https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetingDelete
+
+| Param                                   | Type                 |
+| --------------------------------------- | -------------------- |
+| meetingId                               | <code>number</code>  |
+| [config]                                | <code>Object</code>  |
+| [config.params]                         | <code>Object</code>  |
+| [config.params.occurrence_id]           | <code>string</code>  |
+| [config.params.schedule_for_reminder]   | <code>boolean</code> |
+| [config.params.cancel_meeting_reminder] | <code>boolean</code> |
 
 <a name="Reports"></a>
 

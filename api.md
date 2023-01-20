@@ -29,9 +29,9 @@ Zoom Dashboards API.
 
 - [Dashboards](#Dashboards)
   - [new Dashboards(client)](#new_Dashboards_new)
-  - [.listMeetings([config])](#Dashboards+listMeetings) ⇒ <code>Promise</code>
-  - [.listMeetingParticipants(meetingId, [config])](#Dashboards+listMeetingParticipants) ⇒ <code>Promise</code>
-  - [.getMeetingDetails(meetingId, [config])](#Dashboards+getMeetingDetails) ⇒ <code>Promise</code>
+  - [.listMeetings([params])](#Dashboards+listMeetings) ⇒ <code>Promise</code>
+  - [.listMeetingParticipants(meetingId, [params])](#Dashboards+listMeetingParticipants) ⇒ <code>Promise</code>
+  - [.getMeetingDetails(meetingId, [params])](#Dashboards+getMeetingDetails) ⇒ <code>Promise</code>
 
 <a name="new_Dashboards_new"></a>
 
@@ -45,7 +45,7 @@ Make Dashboards instance.
 
 <a name="Dashboards+listMeetings"></a>
 
-### dashboards.listMeetings([config]) ⇒ <code>Promise</code>
+### dashboards.listMeetings([params]) ⇒ <code>Promise</code>
 
 List total live or past meetings that occurred during a specified
 period of time.
@@ -53,52 +53,37 @@ period of time.
 **Kind**: instance method of [<code>Dashboards</code>](#Dashboards)  
 **See**: https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetings
 
-| Param                           | Type                                                                                               |
-| ------------------------------- | -------------------------------------------------------------------------------------------------- |
-| [config]                        | <code>Object</code>                                                                                |
-| [config.params]                 | <code>Object</code>                                                                                |
-| [config.params.type]            | <code>&quot;past&quot;</code> \| <code>&quot;pastOne&quot;</code> \| <code>&quot;live&quot;</code> |
-| [config.params.from]            | <code>string</code>                                                                                |
-| [config.params.to]              | <code>string</code>                                                                                |
-| [config.params.page_size]       | <code>number</code>                                                                                |
-| [config.params.next_page_token] | <code>string</code>                                                                                |
-| [config.params.group_id]        | <code>string</code>                                                                                |
-| [config.params.include_fields]  | <code>&quot;tracking_fields&quot;</code>                                                           |
+| Param    | Type                |
+| -------- | ------------------- |
+| [params] | <code>Object</code> |
 
 <a name="Dashboards+listMeetingParticipants"></a>
 
-### dashboards.listMeetingParticipants(meetingId, [config]) ⇒ <code>Promise</code>
+### dashboards.listMeetingParticipants(meetingId, [params]) ⇒ <code>Promise</code>
 
 List participants from live or past meetings.
 
 **Kind**: instance method of [<code>Dashboards</code>](#Dashboards)  
 **See**: https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/dashboardMeetingParticipants
 
-| Param                           | Type                                                                                               |
-| ------------------------------- | -------------------------------------------------------------------------------------------------- |
-| meetingId                       | <code>string</code>                                                                                |
-| [config]                        | <code>Object</code>                                                                                |
-| [config.params]                 | <code>Object</code>                                                                                |
-| [config.params.type]            | <code>&quot;past&quot;</code> \| <code>&quot;pastOne&quot;</code> \| <code>&quot;live&quot;</code> |
-| [config.params.page_size]       | <code>number</code>                                                                                |
-| [config.params.next_page_token] | <code>string</code>                                                                                |
-| [config.params.include_fields]  | <code>&quot;registrant_id&quot;</code>                                                             |
+| Param     | Type                |
+| --------- | ------------------- |
+| meetingId | <code>string</code> |
+| [params]  | <code>Object</code> |
 
 <a name="Dashboards+getMeetingDetails"></a>
 
-### dashboards.getMeetingDetails(meetingId, [config]) ⇒ <code>Promise</code>
+### dashboards.getMeetingDetails(meetingId, [params]) ⇒ <code>Promise</code>
 
 Get details on live or past meetings.
 
 **Kind**: instance method of [<code>Dashboards</code>](#Dashboards)  
 **See**: https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/dashboardMeetingDetail
 
-| Param                | Type                                                                                               |
-| -------------------- | -------------------------------------------------------------------------------------------------- |
-| meetingId            | <code>string</code>                                                                                |
-| [config]             | <code>Object</code>                                                                                |
-| [config.params]      | <code>Object</code>                                                                                |
-| [config.params.type] | <code>&quot;past&quot;</code> \| <code>&quot;pastOne&quot;</code> \| <code>&quot;live&quot;</code> |
+| Param     | Type                |
+| --------- | ------------------- |
+| meetingId | <code>string</code> |
+| [params]  | <code>Object</code> |
 
 <a name="Groups"></a>
 
@@ -113,7 +98,7 @@ Zoom Groups API.
   - [new Groups(client)](#new_Groups_new)
   - [.listGroups()](#Groups+listGroups) ⇒ <code>Promise</code>
   - [.getAGroup(groupId)](#Groups+getAGroup) ⇒ <code>Promise</code>
-  - [.listGroupMembers(groupId, [config])](#Groups+listGroupMembers) ⇒ <code>Promise</code>
+  - [.listGroupMembers(groupId, [params])](#Groups+listGroupMembers) ⇒ <code>Promise</code>
 
 <a name="new_Groups_new"></a>
 
@@ -148,20 +133,17 @@ Get a group under an account.
 
 <a name="Groups+listGroupMembers"></a>
 
-### groups.listGroupMembers(groupId, [config]) ⇒ <code>Promise</code>
+### groups.listGroupMembers(groupId, [params]) ⇒ <code>Promise</code>
 
 List the members of a group under your account.
 
 **Kind**: instance method of [<code>Groups</code>](#Groups)  
 **See**: https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/groupMembers
 
-| Param                           | Type                |
-| ------------------------------- | ------------------- |
-| groupId                         | <code>string</code> |
-| [config]                        | <code>Object</code> |
-| [config.params]                 | <code>Object</code> |
-| [config.params.page_size]       | <code>number</code> |
-| [config.params.next_page_token] | <code>string</code> |
+| Param    | Type                |
+| -------- | ------------------- |
+| groupId  | <code>string</code> |
+| [params] | <code>Object</code> |
 
 <a name="Meetings"></a>
 
@@ -174,12 +156,12 @@ Zoom Meetings API.
 
 - [Meetings](#Meetings)
   - [new Meetings(client)](#new_Meetings_new)
-  - [.listMeetings(userId, [config])](#Meetings+listMeetings) ⇒ <code>Promise</code>
-  - [.getAMeeting(meetingId, [config])](#Meetings+getAMeeting) ⇒ <code>Promise</code>
-  - [.getPastMeetingParticipants(meetingId, [config])](#Meetings+getPastMeetingParticipants) ⇒ <code>Promise</code>
+  - [.listMeetings(userId, [params])](#Meetings+listMeetings) ⇒ <code>Promise</code>
+  - [.getAMeeting(meetingId, [params])](#Meetings+getAMeeting) ⇒ <code>Promise</code>
+  - [.getPastMeetingParticipants(meetingId, [params])](#Meetings+getPastMeetingParticipants) ⇒ <code>Promise</code>
   - [.getMeetingInvitation(meetingId)](#Meetings+getMeetingInvitation) ⇒ <code>Promise</code>
   - [.createAMeeting(userId, meeting)](#Meetings+createAMeeting) ⇒ <code>Promise</code>
-  - [.deleteAMeeting(meetingId, [config])](#Meetings+deleteAMeeting) ⇒ <code>Promise</code>
+  - [.deleteAMeeting(meetingId, [params])](#Meetings+deleteAMeeting) ⇒ <code>Promise</code>
 
 <a name="new_Meetings_new"></a>
 
@@ -193,55 +175,45 @@ Make Meetings instance.
 
 <a name="Meetings+listMeetings"></a>
 
-### meetings.listMeetings(userId, [config]) ⇒ <code>Promise</code>
+### meetings.listMeetings(userId, [params]) ⇒ <code>Promise</code>
 
 List a user's (meeting host) scheduled meetings.
 
 **Kind**: instance method of [<code>Meetings</code>](#Meetings)  
 **See**: https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetings
 
-| Param                           | Type                                                                                                                                                                                                 |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| userId                          | <code>number</code> \| <code>string</code> \| <code>&quot;me&quot;</code>                                                                                                                            |
-| [config]                        | <code>Object</code>                                                                                                                                                                                  |
-| [config.params]                 | <code>Object</code>                                                                                                                                                                                  |
-| [config.params.type]            | <code>&quot;scheduled&quot;</code> \| <code>&quot;live&quot;</code> \| <code>&quot;upcoming&quot;</code> \| <code>&quot;upcoming_meetings&quot;</code> \| <code>&quot;previous_meetings&quot;</code> |
-| [config.params.page_size]       | <code>number</code>                                                                                                                                                                                  |
-| [config.params.next_page_token] | <code>string</code>                                                                                                                                                                                  |
+| Param    | Type                                                                      |
+| -------- | ------------------------------------------------------------------------- |
+| userId   | <code>number</code> \| <code>string</code> \| <code>&quot;me&quot;</code> |
+| [params] | <code>Object</code>                                                       |
 
 <a name="Meetings+getAMeeting"></a>
 
-### meetings.getAMeeting(meetingId, [config]) ⇒ <code>Promise</code>
+### meetings.getAMeeting(meetingId, [params]) ⇒ <code>Promise</code>
 
 Retrieve the details of a meeting.
 
 **Kind**: instance method of [<code>Meetings</code>](#Meetings)  
 **See**: https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meeting
 
-| Param                                     | Type                 |
-| ----------------------------------------- | -------------------- |
-| meetingId                                 | <code>number</code>  |
-| [config]                                  | <code>Object</code>  |
-| [config.params]                           | <code>Object</code>  |
-| [config.params.occurrence_id]             | <code>string</code>  |
-| [config.params.show_previous_occurrences] | <code>boolean</code> |
+| Param     | Type                |
+| --------- | ------------------- |
+| meetingId | <code>number</code> |
+| [params]  | <code>Object</code> |
 
 <a name="Meetings+getPastMeetingParticipants"></a>
 
-### meetings.getPastMeetingParticipants(meetingId, [config]) ⇒ <code>Promise</code>
+### meetings.getPastMeetingParticipants(meetingId, [params]) ⇒ <code>Promise</code>
 
 Retrieve information on participants from a past meeting.
 
 **Kind**: instance method of [<code>Meetings</code>](#Meetings)  
 **See**: https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/pastMeetingParticipants
 
-| Param                           | Type                |
-| ------------------------------- | ------------------- |
-| meetingId                       | <code>string</code> |
-| [config]                        | <code>Object</code> |
-| [config.params]                 | <code>Object</code> |
-| [config.params.page_size]       | <code>number</code> |
-| [config.params.next_page_token] | <code>string</code> |
+| Param     | Type                |
+| --------- | ------------------- |
+| meetingId | <code>string</code> |
+| [params]  | <code>Object</code> |
 
 <a name="Meetings+getMeetingInvitation"></a>
 
@@ -272,21 +244,17 @@ Create a meeting for a user.
 
 <a name="Meetings+deleteAMeeting"></a>
 
-### meetings.deleteAMeeting(meetingId, [config]) ⇒ <code>Promise</code>
+### meetings.deleteAMeeting(meetingId, [params]) ⇒ <code>Promise</code>
 
 Delete a meeting.
 
 **Kind**: instance method of [<code>Meetings</code>](#Meetings)  
 **See**: https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetingDelete
 
-| Param                                   | Type                 |
-| --------------------------------------- | -------------------- |
-| meetingId                               | <code>number</code>  |
-| [config]                                | <code>Object</code>  |
-| [config.params]                         | <code>Object</code>  |
-| [config.params.occurrence_id]           | <code>string</code>  |
-| [config.params.schedule_for_reminder]   | <code>boolean</code> |
-| [config.params.cancel_meeting_reminder] | <code>boolean</code> |
+| Param     | Type                |
+| --------- | ------------------- |
+| meetingId | <code>number</code> |
+| [params]  | <code>Object</code> |
 
 <a name="Reports"></a>
 
@@ -299,7 +267,7 @@ Zoom Reports API.
 
 - [Reports](#Reports)
   - [new Reports(client)](#new_Reports_new)
-  - [.getMeetingParticipantReports(meetingId, [config])](#Reports+getMeetingParticipantReports) ⇒ <code>Promise</code>
+  - [.getMeetingParticipantReports(meetingId, [params])](#Reports+getMeetingParticipantReports) ⇒ <code>Promise</code>
 
 <a name="new_Reports_new"></a>
 
@@ -313,7 +281,7 @@ Make Reports instance.
 
 <a name="Reports+getMeetingParticipantReports"></a>
 
-### reports.getMeetingParticipantReports(meetingId, [config]) ⇒ <code>Promise</code>
+### reports.getMeetingParticipantReports(meetingId, [params]) ⇒ <code>Promise</code>
 
 Return a report of a past meeting with two or more participants,
 including the host.
@@ -321,14 +289,10 @@ including the host.
 **Kind**: instance method of [<code>Reports</code>](#Reports)  
 **See**: https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/reportMeetingParticipants
 
-| Param                           | Type                                   |
-| ------------------------------- | -------------------------------------- |
-| meetingId                       | <code>string</code>                    |
-| [config]                        | <code>Object</code>                    |
-| [config.params]                 | <code>Object</code>                    |
-| [config.params.page_size]       | <code>number</code>                    |
-| [config.params.next_page_token] | <code>string</code>                    |
-| [config.params.include_fields]  | <code>&quot;registrant_id&quot;</code> |
+| Param     | Type                |
+| --------- | ------------------- |
+| meetingId | <code>string</code> |
+| [params]  | <code>Object</code> |
 
 <a name="Zoom"></a>
 

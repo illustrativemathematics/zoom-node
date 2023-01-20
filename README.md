@@ -72,9 +72,7 @@ of participants using [Dashboards](https://marketplace.zoom.us/docs/api-referenc
 const meetingId = 12345;
 // Use `client` instance from initialization above.
 const response = await client.dashboards.listMeetingParticipants(meetingId, {
-  params: {
-    type: "past",
-  },
+  type: "past",
 });
 console.log(data.participants);
 ```
@@ -91,18 +89,14 @@ participants:
 const meetingId = 12345;
 // Use `client` instance from initialization above.
 const firstPage = await client.dashboards.listMeetingParticipants(meetingId, {
-  params: {
-    type: "past",
-  },
+  type: "past",
 });
 console.log(firstPage.participants);
 
 const nextPage = await client.dashboards.listMeetingParticipants(meetingId, {
-  params: {
-    type: "past",
-    // Use `firstPage` token provided by Zoom to fetch next page.
-    next_page_token: firstPage.next_page_token,
-  },
+  type: "past",
+  // Use `firstPage` token provided by Zoom to fetch next page.
+  next_page_token: firstPage.next_page_token,
 });
 console.log(nextPage.participants);
 ```
@@ -116,9 +110,7 @@ const meetingId = 12345;
 for await (const participant of client.dashboards.listMeetingParticipants(
   meetingId,
   {
-    params: {
-      type: "past",
-    },
+    type: "past",
   }
 )) {
   // Note that this is an individual item in the list/collection response.
@@ -133,9 +125,7 @@ const meetingId = 12345;
 // Use `client` instance from initialization above.
 for await (const page of client.dashboards
   .listMeetingParticipants(meetingId, {
-    params: {
-      type: "past",
-    },
+    type: "past",
   })
   .pages()) {
   // <-- Note the `.pages` call here.
@@ -150,9 +140,7 @@ There is also a `nextPage` helper:
 const meetingId = 12345;
 // Use `client` instance from initialization above.
 const pager = client.dashboards.listMeetingParticipants(meetingId, {
-  params: {
-    type: "past",
-  },
+  type: "past",
 });
 while (true) {
   const page = await pager.nextPage();

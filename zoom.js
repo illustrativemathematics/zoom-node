@@ -22,19 +22,11 @@ class Dashboards {
    *
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetings
    *
-   * @param {Object} [config]
-   * @param {Object} [config.params]
-   * @param {"past"|"pastOne"|"live"} [config.params.type]
-   * @param {string} [config.params.from]
-   * @param {string} [config.params.to]
-   * @param {number} [config.params.page_size]
-   * @param {string} [config.params.next_page_token]
-   * @param {string} [config.params.group_id]
-   * @param {"tracking_fields"} [config.params.include_fields]
+   * @param {Object} [params]
    *
    * @returns {Promise}
    */
-  listMeetings({ params = {} } = {}) {
+  listMeetings(params = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
       {
@@ -52,16 +44,11 @@ class Dashboards {
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/dashboardMeetingParticipants
    *
    * @param {string} meetingId
-   * @param {Object} [config]
-   * @param {Object} [config.params]
-   * @param {"past"|"pastOne"|"live"} [config.params.type]
-   * @param {number} [config.params.page_size]
-   * @param {string} [config.params.next_page_token]
-   * @param {"registrant_id"} [config.params.include_fields]
+   * @param {Object} [params]
    *
    * @returns {Promise}
    */
-  listMeetingParticipants(meetingId, { params = {} } = {}) {
+  listMeetingParticipants(meetingId, params = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
       {
@@ -79,13 +66,11 @@ class Dashboards {
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/dashboardMeetingDetail
    *
    * @param {string} meetingId
-   * @param {Object} [config]
-   * @param {Object} [config.params]
-   * @param {"past"|"pastOne"|"live"} [config.params.type]
+   * @param {Object} [params]
    *
    * @returns {Promise}
    */
-  getMeetingDetails(meetingId, { params = {} } = {}) {
+  getMeetingDetails(meetingId, params = {}) {
     return this.client.withTokenRefreshAttempt({
       method: "GET",
       url: `/metrics/meetings/${meetingId}`,
@@ -145,14 +130,11 @@ class Groups {
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/groupMembers
    *
    * @param {string} groupId
-   * @param {Object} [config]
-   * @param {Object} [config.params]
-   * @param {number} [config.params.page_size]
-   * @param {string} [config.params.next_page_token]
+   * @param {Object} [params]
    *
    * @returns {Promise}
    */
-  listGroupMembers(groupId, { params = {} } = {}) {
+  listGroupMembers(groupId, params = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
       {
@@ -186,15 +168,11 @@ class Meetings {
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetings
    *
    * @param {number|string|"me"} userId
-   * @param {Object} [config]
-   * @param {Object} [config.params]
-   * @param {"scheduled"|"live"|"upcoming"|"upcoming_meetings"|"previous_meetings"} [config.params.type]
-   * @param {number} [config.params.page_size]
-   * @param {string} [config.params.next_page_token]
+   * @param {Object} [params]
    *
    * @returns {Promise}
    */
-  listMeetings(userId, { params = {} } = {}) {
+  listMeetings(userId, params = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
       {
@@ -212,14 +190,11 @@ class Meetings {
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meeting
    *
    * @param {number} meetingId
-   * @param {Object} [config]
-   * @param {Object} [config.params]
-   * @param {string} [config.params.occurrence_id]
-   * @param {boolean} [config.params.show_previous_occurrences]
+   * @param {Object} [params]
    *
    * @returns {Promise}
    */
-  getAMeeting(meetingId, { params = {} } = {}) {
+  getAMeeting(meetingId, params = {}) {
     return this.client.withTokenRefreshAttempt({
       method: "GET",
       url: `/meetings/${meetingId}`,
@@ -233,14 +208,11 @@ class Meetings {
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/pastMeetingParticipants
    *
    * @param {string} meetingId
-   * @param {Object} [config]
-   * @param {Object} [config.params]
-   * @param {number} [config.params.page_size]
-   * @param {string} [config.params.next_page_token]
+   * @param {Object} [params]
    *
    * @returns {Promise}
    */
-  getPastMeetingParticipants(meetingId, { params = {} } = {}) {
+  getPastMeetingParticipants(meetingId, params = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
       {
@@ -292,15 +264,11 @@ class Meetings {
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetingDelete
    *
    * @param {number} meetingId
-   * @param {Object} [config]
-   * @param {Object} [config.params]
-   * @param {string} [config.params.occurrence_id]
-   * @param {boolean} [config.params.schedule_for_reminder]
-   * @param {boolean} [config.params.cancel_meeting_reminder]
+   * @param {Object} [params]
    *
    * @returns {Promise}
    */
-  deleteAMeeting(meetingId, { params = {} } = {}) {
+  deleteAMeeting(meetingId, params = {}) {
     return this.client.withTokenRefreshAttempt({
       method: "DELETE",
       url: `/meetings/${meetingId}`,
@@ -331,15 +299,11 @@ class Reports {
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/reportMeetingParticipants
    *
    * @param {string} meetingId
-   * @param {Object} [config]
-   * @param {Object} [config.params]
-   * @param {number} [config.params.page_size]
-   * @param {string} [config.params.next_page_token]
-   * @param {"registrant_id"} [config.params.include_fields]
+   * @param {Object} [params]
    *
    * @returns {Promise}
    */
-  getMeetingParticipantReports(meetingId, { params = {} } = {}) {
+  getMeetingParticipantReports(meetingId, params = {}) {
     return this.client.withPagination(
       this.client.withTokenRefreshAttempt,
       {

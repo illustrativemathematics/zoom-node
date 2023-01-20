@@ -176,10 +176,8 @@ test("client paginates manually", async () => {
     // Use the previous response value, if available, to page.
     const pager = page ? { next_page_token: page.next_page_token } : {};
     page = await client.groups.listGroupMembers("abc", {
-      params: {
-        page_size: 1, // Mock responses only contain one member.
-        ...pager,
-      },
+      page_size: 1, // Mock responses only contain one member.
+      ...pager,
     });
 
     emails.push(page.members[0].email);
@@ -199,9 +197,7 @@ test("client paginates with `for await...of` statement", async () => {
   const client = makeClient();
   let emails = [];
   for await (const member of client.groups.listGroupMembers("abc", {
-    params: {
-      page_size: 1, // Mock responses only contain one member.
-    },
+    page_size: 1, // Mock responses only contain one member.
   })) {
     emails.push(member.email);
   }
@@ -214,9 +210,7 @@ test("client paginates pages with `for await...of` statement", async () => {
   let emails = [];
   for await (const page of client.groups
     .listGroupMembers("abc", {
-      params: {
-        page_size: 1, // Mock responses only contain one member.
-      },
+      page_size: 1, // Mock responses only contain one member.
     })
     .pages()) {
     emails = emails.concat(page.members.map((member) => member.email));
@@ -229,9 +223,7 @@ test("client paginates with `nextPage` helper", async () => {
   const client = makeClient();
   let emails = [];
   const pager = client.groups.listGroupMembers("abc", {
-    params: {
-      page_size: 1, // Mock responses only contain one member.
-    },
+    page_size: 1, // Mock responses only contain one member.
   });
   while (true) {
     const page = await pager.nextPage();

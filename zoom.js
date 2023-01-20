@@ -253,6 +253,22 @@ class Meetings {
   }
 
   /**
+   * Retrieve the meeting invite note that was sent for a specific meeting.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetingInvitation
+   *
+   * @param {number} meetingId
+   *
+   * @returns {Promise}
+   */
+  getMeetingInvitation(meetingId) {
+    return this.client.withTokenRefreshAttempt({
+      method: "GET",
+      url: `/meetings/${meetingId}/invitation`,
+    });
+  }
+
+  /**
    * Create a meeting for a user.
    *
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetingCreate

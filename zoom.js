@@ -253,6 +253,24 @@ class Meetings {
   }
 
   /**
+   * Create a meeting for a user.
+   *
+   * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetingCreate
+   *
+   * @param {number|string|"me"} userId
+   * @param {Object} meeting
+   *
+   * @returns {Promise}
+   */
+  createAMeeting(userId, meeting) {
+    return this.client.withTokenRefreshAttempt({
+      method: "POST",
+      url: `/users/${userId}/meetings`,
+      data: meeting,
+    });
+  }
+
+  /**
    * Delete a meeting.
    *
    * @see https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetingDelete

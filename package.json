@@ -5,11 +5,13 @@
   "version": "2.1.0",
   "description": "Node.js client library for the Zoom API",
   "main": "zoom.js",
+  "types": "zoom.d.ts",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "docs": "jsdoc2md *.js > api.md"
+    "docs": "jsdoc2md *.js > api.md",
+    "types": "tsc"
   },
   "keywords": [
     "zoom",

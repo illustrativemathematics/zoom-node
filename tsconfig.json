@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "emitDeclarationOnly": true,
+    "declaration": true
+  },
+  "files": ["zoom.js"]
+}
